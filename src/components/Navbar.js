@@ -1,14 +1,26 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import AuthContext from '../components/AuthContext'; // Import AuthContext
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
+import AuthContext from '../components/AuthContext';
 
 export default function Navbar() {
-  const { isLoggedIn } = useContext(AuthContext); // Get isLoggedIn from context
+  const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate(); // Use useNavigate hook to access navigation
+
+  const handleLogout = () => {
+    // Perform logout logic if needed
+    // Redirect to login page
+    navigate('/login'); // Use navigate function to redirect
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-success">
       <div className="container-fluid">
-        <Link className="navbar-brand fs-2" to="/">GOFood</Link>
+        <div className="d-flex align-items-center">
+          <div className="me-auto">
+            <Link className="navbar-brand fs-2" to="/">GOFood</Link>
+          </div>
+          
+        </div>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -17,6 +29,11 @@ export default function Navbar() {
             <li className="nav-item">
               <Link className="nav-link active" aria-current="page" to="/">Home</Link>
             </li>
+            {isLoggedIn && (
+            <div className="me-3">
+              <Link className="nav-link active" aria-current="page" to="/">My orders</Link>
+            </div>
+          )}
             {!isLoggedIn ? (
               <>
                 <li className="nav-item">
@@ -31,7 +48,8 @@ export default function Navbar() {
         </div>
         {isLoggedIn && (
           <div className="col-auto">
-            <div>Logged in</div>
+            <Link className="btn btn-light me-2" to="/myorders">My Cart</Link>
+            <button className="btn btn-light" onClick={handleLogout}>Logout</button>
           </div>
         )}
       </div>

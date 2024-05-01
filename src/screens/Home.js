@@ -5,8 +5,7 @@ import Card from '../components/Card';
 import Crousel from '../components/Crousel';
 
 export default function Home() {
-  const [foodCat, setFoodCat] = useState([]);
-  const [foodItem, setFoodItem] = useState([]);
+  
 
   const loadData = async () => {
     try {
@@ -16,9 +15,7 @@ export default function Home() {
           'Content-Type': 'application/json'
         }
       });
-      const data = await response.json();
-      setFoodItem(data.food_items);
-      setFoodCat(data.food_Category);
+      
     } catch (error) {
       console.error('Error loading data:', error);
     }
@@ -32,15 +29,12 @@ export default function Home() {
     <div>
       <Navbar />
       <Crousel />
-      <div className='container'>
-        {
-          foodCat.length > 0
-          ? foodCat.map((category, index) => (
-            <div key={index}>{category.CategoryName}</div>
-          ))
-          : <div>No categories found</div>
-        }
-        <Card />
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gridGap: '20px' }}>
+          <Card />
+          <Card />
+          <Card />
+        </div>
       </div>
       <Footer />
     </div>
